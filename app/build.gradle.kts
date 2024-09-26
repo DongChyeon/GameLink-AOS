@@ -18,6 +18,21 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField(
+            "String",
+            "KAKAO_APP_KEY",
+            properties["kakao.app.key"].toString()
+        )
+        resValue(
+            "string",
+            "KAKAO_APP_KEY_FULL",
+            properties["kakao.app.key.full"].toString()
+        )
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -56,6 +71,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":feature:auth"))
 
+    implementation(libs.kakao.sdk.user)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

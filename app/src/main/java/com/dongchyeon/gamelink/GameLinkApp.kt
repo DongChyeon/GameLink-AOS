@@ -1,6 +1,7 @@
 package com.dongchyeon.gamelink
 
 import android.app.Application
+import com.kakao.sdk.common.KakaoSdk
 import di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -15,5 +16,7 @@ class GameLinkApp : Application() {
             androidContext(this@GameLinkApp)
             modules(networkModule)
         }
+
+        KakaoSdk.init(this, getString(R.string.KAKAO_APP_KEY_FULL))
     }
 }

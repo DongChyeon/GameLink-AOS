@@ -14,6 +14,8 @@ jetbrainsKotlinJvm = "1.9.0"
 ktor = "2.3.2"
 koin = "3.2.0"
 serialization = "2.0.0"
+kakaoSdkUser = "2.20.0"
+dataStore = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +42,8 @@ ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-nego
 ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+data-store = { group = "androidx.datastore", name = "datastore", version.ref = "dataStore" }
+kakao-sdk-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoSdkUser" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
