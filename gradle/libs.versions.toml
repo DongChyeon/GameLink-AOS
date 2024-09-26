@@ -52,6 +52,7 @@ ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serializati
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 data-store = { group = "androidx.datastore", name = "datastore", version.ref = "dataStore" }
+data-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
 kakao-sdk-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoSdkUser" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesAndroid" }
 

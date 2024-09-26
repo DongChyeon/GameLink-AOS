@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.client.serialization)
     implementation(libs.koin)
+    implementation(libs.koin.android)
+    implementation(libs.data.preferences)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
