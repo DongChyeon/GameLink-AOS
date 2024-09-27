@@ -1,7 +1,13 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+}
+
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
 }
 
 android {
@@ -23,19 +29,18 @@ android {
         buildConfigField(
             "String",
             "KAKAO_APP_KEY",
-            properties["kakao.app.key"].toString()
+            properties["kakao.native.app.key"].toString()
         )
         resValue(
             "string",
             "KAKAO_APP_KEY_FULL",
-            properties["kakao.app.key.full"].toString()
+            properties["kakao.native.app.key.full"].toString()
         )
     }
 
     buildFeatures {
         buildConfig = true
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -76,13 +81,15 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.navigation.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material)
     implementation(libs.koin)
-    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -21,7 +21,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
 
-        buildConfigField("String", "BASE_URL", properties["BASE_URL"].toString())
+        buildConfigField("String", "BASE_URL", properties["base.url"].toString())
     }
 
     buildFeatures {
