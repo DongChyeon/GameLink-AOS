@@ -16,7 +16,6 @@ class GameLinkApp : Application() {
             modules(dataModule)
             modules(authViewModelModule)
         }
-
         KakaoSdk.init(this, BuildConfig.KAKAO_APP_KEY)
     }
 }

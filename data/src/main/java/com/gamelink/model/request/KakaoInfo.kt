@@ -1,10 +1,20 @@
 package com.gamelink.model.request
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class KakaoInfo(
-    val access_token: String,
-    val expires_in: Int,
-    val refresh_token: String,
-    val refresh_token_expries: Int,
+    @SerialName("access_token")
+    val accessToken: String,
+    @SerialName("expires_in")
+    val expiresIn: Int,
+    @SerialName("refresh_token")
+    val refreshToken: String,
+    @SerialName("refresh_token_expires")
+    val refreshTokenExpires: Int,
+    @SerialName("scope")
     val scope: String,
-    val token_type: String
+    @SerialName("token_type")
+    val tokenType: String
 )

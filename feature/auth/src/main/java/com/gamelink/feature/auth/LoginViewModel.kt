@@ -36,24 +36,7 @@ class LoginViewModel(
                 postEffect(LoginContract.Effect.ShowSnackBar("카카오톡으로 로그인 실패"))
             }
         } else if (token != null) {
-            viewModelScope.launch {
-                authRepository.kakaoLogin(
-                    DeviceInfo("", "", "", ""),
-                    KakaoInfo(
-                        access_token = token.accessToken,
-                        expires_in = 0,
-                        refresh_token = token.refreshToken,
-                        refresh_token_expries = 0,
-                        scope = "",
-                        token_type = ""
-
-                    )
-                ).onSuccess {
-
-                }.onFailure {
-                    postEffect(LoginContract.Effect.ShowSnackBar("카카오톡으로 로그인 실패"))
-                }
-            }
+            processKakaoLogin(token)
         }
     }
 
@@ -70,11 +53,35 @@ class LoginViewModel(
                     }
                     UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                 } else if (token != null) {
-                    Log.i("LoginViewModel", "accessToken: ${token.accessToken}")
+                    processKakaoLogin(token)
                 }
             }
         } else {
             UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+        }
+    }
+
+    private fun processKakaoLogin(token: OAuthToken) {
+        viewModelScope.launch {
+            val deviceInfo = DeviceInfo("", "", "", "")
+            val kakaoInfo = KakaoInfo(
+                accessToken = token.accessToken,
+                expiresIn = 0,
+                refreshToken = token.refreshToken,
+                refreshTokenExpires = 0,
+                scope = "",
+                tokenType = ""
+            )
+
+            authRepository.kakaoLogin(deviceInfo, kakaoInfo)
+                .onSuccess {
+                    // 성공 시 처리
+                    Log.i("LoginViewModel", "Kakao login successful")
+                }
+                .onFailure {
+                    Log.d("LoginViewModel", it.stackTraceToString())
+                    postEffect(LoginContract.Effect.ShowSnackBar("카카오톡으로 로그인 실패"))
+                }
         }
     }
 }

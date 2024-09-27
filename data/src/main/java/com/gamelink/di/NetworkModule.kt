@@ -3,13 +3,15 @@ package com.gamelink.di
 import android.util.Log
 import com.gamelink.data.BuildConfig
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
@@ -28,7 +30,7 @@ fun providesKtorClient(): HttpClient {
         encodeDefaults = true
     }
 
-    return HttpClient(CIO) {
+    return HttpClient(Android) {
         install(ContentNegotiation) {
             json(json)
         }
@@ -50,7 +52,11 @@ fun providesKtorClient(): HttpClient {
         }
 
         defaultRequest {
-            host = BuildConfig.BASE_URL
+            contentType(ContentType.Application.Json)
+            url {
+                host = BuildConfig.BASE_URL
+                protocol = io.ktor.http.URLProtocol.HTTPS
+            }
         }
     }
 }

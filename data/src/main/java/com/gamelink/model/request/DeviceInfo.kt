@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class DeviceInfo(
     @SerialName("uniqueId")
     val uniqueId: String,
-    @SerialName("com/gamelink/model")
+    @SerialName("model")
     val model: String,
     @SerialName("deviceId")
     val deviceId: String,
