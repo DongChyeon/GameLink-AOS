@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
-    namespace = "com.dongchyeon.feature.auth"
+    namespace = "com.gamelink.feature.auth"
     compileSdk = 34
 
     defaultConfig {

@@ -1,0 +1,16 @@
+package com.gamelink.model.request
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class DeviceInfo(
+    @SerialName("uniqueId")
+    val uniqueId: String,
+    @SerialName("com/gamelink/model")
+    val model: String,
+    @SerialName("deviceId")
+    val deviceId: String,
+    @SerialName("deviceName")
+    val deviceName: String
+)

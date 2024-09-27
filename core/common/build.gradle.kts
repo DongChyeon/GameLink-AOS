@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
-    namespace = "com.dongchyeon.core.common"
+    namespace = "com.gamelink.core.common"
     compileSdk = 34
 
     defaultConfig {

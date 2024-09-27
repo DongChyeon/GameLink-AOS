@@ -5,7 +5,7 @@
 
     <application
         android:allowBackup="true"
-        android:name=".GameLinkApp"
+        android:name="com.gamelink.GameLinkApp"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -15,7 +15,7 @@
         android:theme="@style/Theme.GameLink"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.gamelink.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.GameLink">
@@ -36,7 +36,7 @@
 
                 <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
                 <data android:host="oauth"
-                    android:scheme="@string/KAKAO_NATIVE_APP_KEY_FULL" />
+                    android:scheme="@string/KAKAO_APP_KEY_FULL" />
             </intent-filter>
         </activity>
     </application>

@@ -11,7 +11,7 @@ val properties = Properties().apply {
 }
 
 android {
-    namespace = "com.dongchyeon.data"
+    namespace = "com.gamelink.data"
     compileSdk = 34
 
     defaultConfig {
