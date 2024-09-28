@@ -7,6 +7,7 @@ import com.gamelink.common.base.BaseViewModel
 import com.gamelink.model.request.DeviceInfo
 import com.gamelink.model.request.KakaoInfo
 import com.gamelink.repository.AuthRepository
+import com.gamelink.repository.UserTokenRepository
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -14,7 +15,8 @@ import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userTokenRepository: UserTokenRepository
 ) : BaseViewModel<LoginContract.State, LoginContract.Event, LoginContract.Effect>(
     LoginContract.State()
 ) {
@@ -75,8 +77,7 @@ class LoginViewModel(
 
             authRepository.kakaoLogin(deviceInfo, kakaoInfo)
                 .onSuccess {
-                    // 성공 시 처리
-                    Log.i("LoginViewModel", "Kakao login successful")
+                    userTokenRepository.saveTokens(it.accessToken, it.refreshToken)
                 }
                 .onFailure {
                     Log.d("LoginViewModel", it.stackTraceToString())

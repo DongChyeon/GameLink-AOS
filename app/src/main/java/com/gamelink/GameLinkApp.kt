@@ -2,9 +2,11 @@ package com.gamelink
 
 import android.app.Application
 import com.gamelink.di.dataModule
+import com.gamelink.di.dataStoreModule
 import com.gamelink.di.networkModule
 import com.gamelink.feature.auth.authViewModelModule
 import com.kakao.sdk.common.KakaoSdk
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class GameLinkApp : Application() {
@@ -12,8 +14,10 @@ class GameLinkApp : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
+            androidContext(this@GameLinkApp)
             modules(networkModule)
             modules(dataModule)
+            modules(dataStoreModule)
             modules(authViewModelModule)
         }
         KakaoSdk.init(this, BuildConfig.KAKAO_APP_KEY)

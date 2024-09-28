@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 const val DB_NAME = "gamelink_datastore.preferences_pb"
 
-val persistenceModule = module {
+val dataStoreModule = module {
     single { providesDataStore(androidContext()) }
 }
 
