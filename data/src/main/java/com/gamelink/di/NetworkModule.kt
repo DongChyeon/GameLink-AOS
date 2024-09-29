@@ -20,6 +20,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -55,9 +56,14 @@ fun providesKtorClient(
 
         install(Auth) {
             bearer {
+                sendWithoutRequest { request ->
+                    request.url.encodedPath != "user/oauth/kakao/login"
+                }
+
                 loadTokens {
                     val accessToken = runBlocking { userTokenRepository.getAccessToken().first() }
                     val refreshToken = runBlocking { userTokenRepository.getRefreshToken().first() }
+
                     BearerTokens(accessToken, refreshToken)
                 }
 

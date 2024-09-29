@@ -13,6 +13,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LoginViewModel(
     private val authRepository: AuthRepository,
@@ -77,7 +78,9 @@ class LoginViewModel(
 
             authRepository.kakaoLogin(deviceInfo, kakaoInfo)
                 .onSuccess {
-                    userTokenRepository.saveTokens(it.accessToken, it.refreshToken)
+                    runBlocking {
+                        userTokenRepository.saveTokens(it.accessToken, it.refreshToken)
+                    }
                 }
                 .onFailure {
                     Log.d("LoginViewModel", it.stackTraceToString())
