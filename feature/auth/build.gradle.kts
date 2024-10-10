@@ -35,16 +35,21 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
+    implementation(project(":core:designsystem"))
     implementation(project(":data"))
+
+    implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.ui)
-    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.ui.util)
+    implementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.foundation.layout)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.material)
+    implementation(libs.androidx.material3)
     implementation(libs.kakao.sdk.user)
     implementation(libs.koin)
     implementation(libs.koin.compose)
