@@ -4,16 +4,16 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.gamelink.common.base.BaseViewModel
-import com.gamelink.model.request.DeviceInfo
-import com.gamelink.model.request.KakaoInfo
 import com.gamelink.repository.AuthRepository
 import com.gamelink.repository.UserTokenRepository
+import com.google.firebase.installations.FirebaseInstallations
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 
 class LoginViewModel(
     private val authRepository: AuthRepository,
@@ -66,17 +66,9 @@ class LoginViewModel(
 
     private fun processKakaoLogin(token: OAuthToken) {
         viewModelScope.launch {
-            val deviceInfo = DeviceInfo("", "", "", "")
-            val kakaoInfo = KakaoInfo(
-                accessToken = token.accessToken,
-                expiresIn = 0,
-                refreshToken = token.refreshToken,
-                refreshTokenExpires = 0,
-                scope = "",
-                tokenType = ""
-            )
+            val deviceId = getDeviceId()
 
-            authRepository.kakaoLogin(deviceInfo, kakaoInfo)
+            authRepository.kakaoLogin(token.accessToken, deviceId)
                 .onSuccess {
                     runBlocking {
                         userTokenRepository.saveTokens(it.accessToken, it.refreshToken)
@@ -86,6 +78,15 @@ class LoginViewModel(
                     Log.d("LoginViewModel", it.stackTraceToString())
                     postEffect(LoginContract.Effect.ShowSnackBar("카카오톡으로 로그인 실패"))
                 }
+        }
+    }
+
+    private suspend fun getDeviceId(): String {
+        return try {
+            return FirebaseInstallations.getInstance().id.await() ?: ""
+        } catch (e: Exception) {
+            Log.e("LoginViewModel", "Failed to get device id", e)
+            ""
         }
     }
 }

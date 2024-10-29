@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.google.services)
 }
 
 val properties = Properties().apply {
@@ -76,6 +77,9 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:domain"))
     implementation(project(":feature:auth"))
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.common)
 
     implementation(libs.kakao.sdk.user)
     implementation(libs.androidx.core.ktx)

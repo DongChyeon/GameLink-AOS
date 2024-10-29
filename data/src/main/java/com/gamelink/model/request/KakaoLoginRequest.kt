@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class KakaoLoginRequest(
-    val deviceInfo: DeviceInfo,
-    val kakaoInfo: KakaoInfo
+    val accessToken: String,
+    val deviceId: String
 )
