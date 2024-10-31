@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gamelink.theme.GameLinkTheme
+import com.gamelink.designsystem.theme.GameLinkTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

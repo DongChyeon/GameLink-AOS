@@ -67,7 +67,6 @@ class LoginViewModel(
     private fun processKakaoLogin(token: OAuthToken) {
         viewModelScope.launch {
             val deviceId = getDeviceId()
-
             authRepository.kakaoLogin(token.accessToken, deviceId)
                 .onSuccess {
                     runBlocking {

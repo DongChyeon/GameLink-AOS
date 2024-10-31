@@ -1,4 +1,4 @@
-package com.gamelink.theme
+package com.gamelink.designsystem.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme

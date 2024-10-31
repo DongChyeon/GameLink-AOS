@@ -1,4 +1,4 @@
-package com.gamelink.theme
+package com.gamelink.designsystem.theme
 
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily

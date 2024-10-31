@@ -1,4 +1,4 @@
-package com.gamelink.theme
+package com.gamelink.designsystem.theme
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

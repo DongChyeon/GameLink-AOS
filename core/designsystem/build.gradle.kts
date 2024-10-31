@@ -24,6 +24,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        compose = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -44,6 +47,7 @@ dependencies {
     implementation(libs.androidx.ui.util)
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.foundation.layout)
     implementation(libs.androidx.material)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
