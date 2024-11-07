@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
+import com.dongchyeon.feature.profile.profileScreen
 import com.gamelink.designsystem.component.BottomNavigationBar
 import com.gamelink.designsystem.component.BottomNavigationBarItem
 import com.gamelink.designsystem.theme.GameLinkTheme
@@ -68,6 +69,9 @@ fun GameLinkNavHost(
                     navigateToHome = navController::navigateToHome
                 )
                 homeScreen(
+                    showSnackBar = appState::showSnackbar
+                )
+                profileScreen(
                     showSnackBar = appState::showSnackbar
                 )
             }

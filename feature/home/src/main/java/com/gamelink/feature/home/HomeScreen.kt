@@ -27,7 +27,7 @@ internal fun HomeRoutePreview() {
 
 @Composable
 internal fun HomeScreen(
-    showSnackbar: (String) -> Unit
+    showSnackBar: (String) -> Unit
 ) {
     Column(
         modifier = Modifier

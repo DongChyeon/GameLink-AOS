@@ -1,6 +1,7 @@
 package com.gamelink
 
 import android.app.Application
+import com.dongchyeon.feature.profile.profileViewModelModule
 import com.gamelink.di.dataModule
 import com.gamelink.di.dataStoreModule
 import com.gamelink.di.networkModule
@@ -20,6 +21,7 @@ class GameLinkApp : Application() {
             modules(dataModule)
             modules(dataStoreModule)
             modules(authViewModelModule)
+            modules(profileViewModelModule)
         }
         FirebaseApp.initializeApp(this)
         KakaoSdk.init(this, BuildConfig.KAKAO_APP_KEY)
