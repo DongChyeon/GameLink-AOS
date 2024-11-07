@@ -1,4 +1,4 @@
-package com.gamelink.common
+package com.gamelink.ui
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState

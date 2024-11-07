@@ -72,6 +72,7 @@ class LoginViewModel(
                     runBlocking {
                         userTokenRepository.saveTokens(it.accessToken, it.refreshToken)
                     }
+                    postEffect(LoginContract.Effect.NavigateToHome)
                 }
                 .onFailure {
                     Log.d("LoginViewModel", it.stackTraceToString())

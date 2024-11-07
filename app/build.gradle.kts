@@ -77,6 +77,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:domain"))
     implementation(project(":feature:auth"))
+    implementation(project(":feature:home"))
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.common)

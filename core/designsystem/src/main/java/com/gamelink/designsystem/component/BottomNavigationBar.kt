@@ -129,7 +129,7 @@ fun BottomNavigationBarItem(
         onClick = onClick
     ) {
         Box(
-            modifier = Modifier.size(width = 70.dp, height = 60.dp),
+            modifier = Modifier.size(width = 50.dp, height = 60.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
