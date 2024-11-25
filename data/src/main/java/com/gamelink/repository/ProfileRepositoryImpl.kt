@@ -8,4 +8,7 @@ class ProfileRepositoryImpl(
 ) : ProfileRepository {
     override suspend fun getProfile(): Result<UserProfileResponse> =
         profileDataSource.getProfile()
+
+    override suspend fun postRiotAccount(gameName: String, tagLine: String): Result<Unit> =
+        profileDataSource.postRiotAccount(gameName, tagLine)
 }

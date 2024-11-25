@@ -17,9 +17,9 @@ import com.gamelink.designsystem.theme.GameLinkTheme
 @Composable
 fun GButton(
     text: String,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    onClick: () -> Unit
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),
