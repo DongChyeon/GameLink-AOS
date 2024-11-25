@@ -1,10 +1,14 @@
 package com.dongchyeon.feature.profile
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +17,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -24,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,8 +41,12 @@ import coil3.request.ImageRequest
 import com.gamelink.designsystem.component.GButton
 import com.gamelink.designsystem.component.GTextField
 import com.gamelink.designsystem.theme.GameLinkTheme
+import com.gamelink.model.response.RankDetails
 import kotlinx.coroutines.flow.collectLatest
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 internal fun ProfileRoute(
     showSnackBar: (String) -> Unit,
@@ -55,6 +67,7 @@ internal fun ProfileRoute(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 internal fun ProfileScreen(
     profileViewModel: ProfileViewModel,
@@ -82,12 +95,10 @@ internal fun ProfileScreen(
             )
         } else {
             ProfileWithRegistered(
-                backgroundImageUrl = uiState.userProfile?.backgroundImageUrl,
-                summonerIconUrl = uiState.userProfile?.summonerIconUrl,
-                summonerNickname = uiState.userProfile?.summonerName ?: "",
-                summonerTag = uiState.userProfile?.summonerTag,
-                summonerLevel = uiState.userProfile?.summonerLevel
-            )
+                uiState = uiState
+            ) {
+                profileViewModel.processEvent(ProfileContract.Event.FetchProfile)
+            }
         }
     }
 }
@@ -155,28 +166,91 @@ internal fun ProfileWithNotRegistered(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 internal fun ProfileWithRegistered(
-    backgroundImageUrl: String?,
-    summonerIconUrl: String?,
-    summonerNickname: String,
-    summonerTag: String?,
-    summonerLevel: Int?
+    uiState: ProfileContract.State,
+    onRefresh: () -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+    val itemWidth = configuration.screenWidthDp.dp * 0.8f
+
     ProfileHeader(
-        backgroundImageUrl = backgroundImageUrl,
-        summonerIconUrl = summonerIconUrl,
-        summonerNickname = summonerNickname,
-        summonerTag = summonerTag,
-        summonerLevel = summonerLevel
+        backgroundImageUrl = uiState.userProfile?.backgroundImageUrl,
+        summonerIconUrl = uiState.userProfile?.summonerIconUrl,
+        summonerName = uiState.userProfile?.summonerName,
+        summonerTag = uiState.userProfile?.summonerTag,
+        summonerLevel = uiState.userProfile?.summonerLevel
     )
+
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 20.dp)
+        ) {
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                GButton(
+                    modifier = Modifier.weight(1f),
+                    text = "전적 갱신"
+                ) {
+                    onRefresh()
+                }
+
+                Spacer(modifier = Modifier.width(20.dp))
+
+                Text(
+                    "최근 업데이트: ${uiState.userProfile?.revisionDate?.let { formatDate(it) }}",
+                    modifier = Modifier.weight(1f),
+                    style = GameLinkTheme.typography.body2Bold,
+                    color = GameLinkTheme.colors.gray1
+                )
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+
+        val pagerState = rememberPagerState(pageCount = { 3 })
+        val pageSize = PageSize.Fixed(pageSize = itemWidth)
+
+        HorizontalPager(
+            modifier = Modifier.fillMaxWidth(),
+            state = pagerState,
+            pageSize = pageSize,
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            pageSpacing = 20.dp
+        ) { page ->
+            when (page) {
+                0 -> {
+                    uiState.userProfile?.total?.let {
+                        RankContent(rankType = "전체", rankDetail = it)
+                    }
+                }
+                1 -> {
+                    uiState.userProfile?.soloRank?.let {
+                        RankContent(rankType = "개인/2인 랭크", rankDetail = it)
+                    }
+                }
+                2 -> {
+                    uiState.userProfile?.teamRank?.let {
+                        RankContent(rankType = "팀 랭크", rankDetail = it)
+
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
 internal fun ProfileHeader(
     backgroundImageUrl: String?,
     summonerIconUrl: String?,
-    summonerNickname: String,
+    summonerName: String?,
     summonerTag: String?,
     summonerLevel: Int?
 ) {
@@ -255,11 +329,13 @@ internal fun ProfileHeader(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(
-                            text = summonerNickname,
-                            style = GameLinkTheme.typography.title1,
-                            color = Color.White
-                        )
+                        if (summonerName != null) {
+                            Text(
+                                text = summonerName,
+                                style = GameLinkTheme.typography.title1,
+                                color = Color.White
+                            )
+                        }
 
                         summonerTag?.let {
                             Text(
@@ -281,5 +357,135 @@ internal fun ProfileHeader(
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
-    
+}
+
+@Composable
+internal fun RankContent(
+    rankType: String,
+    rankDetail: RankDetails
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = GameLinkTheme.colors.gray1,
+                shape = RoundedCornerShape(20.dp)
+            )
+            .padding(20.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .background(
+                    color = GameLinkTheme.colors.primary3,
+                    shape = RoundedCornerShape(8.dp)
+                )
+                .padding(
+                    horizontal = 8.dp,
+                    vertical = 4.dp
+                ),
+            text = rankType,
+            style = GameLinkTheme.typography.navi,
+            color = GameLinkTheme.colors.primary1
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = "${rankDetail.rank} ${rankDetail.tier}",
+                style = GameLinkTheme.typography.body1Bold,
+                color = Color.White
+            )
+
+            Text(
+                text = "${rankDetail.leaguePoints} LP",
+                style = GameLinkTheme.typography.body1Bold,
+                color = GameLinkTheme.colors.primary1
+            )
+        }
+
+        Spacer(modifier= Modifier.height(4.dp))
+
+        Text(
+            text = "${rankDetail.wins}승 ${rankDetail.losses}패 (${decimalToPercentage(rankDetail.winRate)})",
+            style = GameLinkTheme.typography.body2,
+            color = GameLinkTheme.colors.gray1
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            rankDetail.best3champions.forEach { champion ->
+                ChampionContent(
+                    championImageUrl = champion.championImageUrl,
+                    kills = champion.kills,
+                    deaths = champion.deaths,
+                    assists = champion.assists
+                )
+            }
+        }
+    }
+}
+
+@Composable
+internal fun ChampionContent(
+    championImageUrl: String,
+    kills: Float,
+    deaths: Float,
+    assists: Float
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AsyncImage(
+            modifier = Modifier
+                .size(80.dp)
+                .clip(CircleShape)
+                .background(
+                    color = GameLinkTheme.colors.background2,
+                    shape = CircleShape
+                ),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(championImageUrl)
+                .build(),
+            contentScale = ContentScale.Crop,
+            contentDescription = "IMG_CHAMPION",
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        val formattedKills = "$kills".substring(0, 3)
+        val formattedDeaths = "$deaths".substring(0, 3)
+        val formattedAssists = "$assists".substring(0, 3)
+
+        Text(
+            text = "$formattedKills / $formattedDeaths / $formattedAssists",
+            style = GameLinkTheme.typography.navi,
+            color = GameLinkTheme.colors.gray1
+        )
+    }
+}
+
+private fun decimalToPercentage(decimalValue: Double): String {
+    val percentage = decimalValue * 100
+    return String.format("%.2f%%", percentage)
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+private fun formatDate(input: String): String {
+    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    val outputFormatter = DateTimeFormatter.ofPattern("yy.MM.dd")
+
+    val dateTime = LocalDateTime.parse(input, inputFormatter)
+
+    return try {
+        dateTime.format(outputFormatter)
+    } catch (e: Exception) {
+        ""
+    }
 }

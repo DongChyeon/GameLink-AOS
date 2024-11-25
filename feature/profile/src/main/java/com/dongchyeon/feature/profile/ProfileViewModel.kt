@@ -19,6 +19,10 @@ class ProfileViewModel(
             is ProfileContract.Event.RegisterRiotAccount -> {
                 postRiotAccount(event.gameName, event.tagLine)
             }
+
+            is ProfileContract.Event.FetchProfile -> {
+                fetchProfile()
+            }
         }
     }
 

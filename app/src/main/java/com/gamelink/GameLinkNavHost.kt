@@ -1,5 +1,8 @@
 package com.gamelink
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -43,12 +46,16 @@ fun GameLinkNavHost(
         modifier = Modifier.navigationBarsPadding()
     ) {
         Scaffold(
-            backgroundColor = Color.White,
+            backgroundColor = GameLinkTheme.colors.background,
             snackbarHost = {
                 appState.scaffoldState.snackbarHostState
             },
             bottomBar = {
-                if (appState.shouldShowBottomBar) {
+                AnimatedVisibility(
+                    appState.shouldShowBottomBar,
+                    enter = slideInVertically { it },
+                    exit = slideOutVertically { it },
+                ) {
                     GameLinkBottomNavigationBar(
                         destinations = appState.topLevelDestinations,
                         currentDestination = appState.currentDestination,

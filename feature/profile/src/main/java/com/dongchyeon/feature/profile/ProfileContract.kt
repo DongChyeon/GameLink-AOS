@@ -18,6 +18,7 @@ class ProfileContract {
     ) : UiState
 
     sealed class Event : UiEvent {
+        data object FetchProfile : Event()
         data class RegisterRiotAccount(
             val gameName: String,
             val tagLine: String
