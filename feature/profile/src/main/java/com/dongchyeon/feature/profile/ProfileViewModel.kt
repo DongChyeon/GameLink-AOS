@@ -26,7 +26,12 @@ class ProfileViewModel(
         profileRepository.getProfile()
             .onSuccess {
                 val isNotRegistered = it.summonerId == null
-                updateState(currentState.copy(isNotRegistered = isNotRegistered))
+                updateState(
+                    currentState.copy(
+                        isNotRegistered = isNotRegistered,
+                        userProfile = it
+                    )
+                )
             }.onFailure {
                 postEffect(ProfileContract.Effect.ShowSnackBar("프로필을 불러오는데 실패했습니다"))
             }

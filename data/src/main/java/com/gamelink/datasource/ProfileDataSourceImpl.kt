@@ -19,7 +19,7 @@ class ProfileDataSourceImpl(
 
     override suspend fun postRiotAccount(gameName: String, tagLine: String): Result<Unit> {
         return kotlin.runCatching {
-            client.post("riot/lol/account") {
+            client.post("riot/lol/account/register") {
                 setBody(RegisterRiotAccountRequest(gameName, tagLine))
             }.body()
         }
