@@ -1,9 +1,9 @@
 package com.dongchyeon.feature.profile
 
-import com.gamelink.common.base.UiEffect
-import com.gamelink.common.base.UiEvent
-import com.gamelink.common.base.UiState
-import com.gamelink.model.response.UserProfileResponse
+import com.dongchyeon.common.base.UiEffect
+import com.dongchyeon.common.base.UiEvent
+import com.dongchyeon.common.base.UiState
+import com.dongchyeon.model.response.UserProfileResponse
 
 class ProfileContract {
 

@@ -38,10 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
-import com.gamelink.designsystem.component.GButton
-import com.gamelink.designsystem.component.GTextField
-import com.gamelink.designsystem.theme.GameLinkTheme
-import com.gamelink.model.response.RankDetails
+import com.dongchyeon.designsystem.component.GButton
+import com.dongchyeon.designsystem.component.GTextField
+import com.dongchyeon.designsystem.theme.GameLinkTheme
+import com.dongchyeon.model.response.RankDetails
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

@@ -1,8 +1,8 @@
 package com.dongchyeon.feature.profile
 
 import androidx.lifecycle.viewModelScope
-import com.gamelink.common.base.BaseViewModel
-import com.gamelink.repository.ProfileRepository
+import com.dongchyeon.common.base.BaseViewModel
+import com.dongchyeon.repository.ProfileRepository
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
