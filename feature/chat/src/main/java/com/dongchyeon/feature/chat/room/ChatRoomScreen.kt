@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +33,8 @@ import com.dongchyeon.feature.chat.component.ChatRoomInputBox
 import com.dongchyeon.feature.chat.component.LeftChatMessageItem
 import com.dongchyeon.feature.chat.component.RightChatMessageItem
 import com.dongchyeon.model.ChatMessageType
+import kotlinx.coroutines.flow.collectLatest
+import kotlin.math.max
 
 @Composable
 internal fun ChatRoomRoute(
@@ -56,6 +60,25 @@ internal fun ChatRoomScreen(
 ) {
     val uiState by chatRoomViewModel.uiState.collectAsStateWithLifecycle()
 
+    val effectFlow = chatRoomViewModel.effect
+
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(Unit) {
+        effectFlow.collectLatest { effect ->
+            when (effect) {
+                is ChatRoomContract.Effect.ScrollToBottom -> {
+                    val totalItemCount = listState.layoutInfo.totalItemsCount
+                    listState.animateScrollToItem(max(totalItemCount - 1, 0))
+                }
+
+                is ChatRoomContract.Effect.ShowSnackBar -> {
+                    showSnackBar(effect.message)
+                }
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,6 +94,7 @@ internal fun ChatRoomScreen(
                     horizontal = 20.dp,
                     vertical = 16.dp
                 ),
+            state = listState,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(uiState.messages) { message ->
