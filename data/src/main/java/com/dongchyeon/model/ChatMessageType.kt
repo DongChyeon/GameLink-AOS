@@ -10,5 +10,17 @@ enum class ChatMessageType {
     @SerialName("TALK")
     TALK,
     @SerialName("LEAVE")
-    LEAVE
+    LEAVE;
+
+    companion object {
+        fun fromValue(value: String): ChatMessageType {
+            return when (value) {
+                "ENTER" -> ENTER
+                "TALK" -> TALK
+                "LEAVE" -> LEAVE
+                else -> throw IllegalArgumentException("Unknown value: $value")
+            }
+        }
+    }
 }
+

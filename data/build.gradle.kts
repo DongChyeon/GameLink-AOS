@@ -22,6 +22,7 @@ android {
 
 
         buildConfigField("String", "BASE_URL", properties["base.url"].toString())
+        buildConfigField("String", "STOMP_URL", properties["stomp.url"].toString())
     }
 
     buildFeatures {
@@ -53,8 +54,13 @@ dependencies {
     implementation(libs.ktor.content.negotiation)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.auth)
     implementation(libs.ktor.client.logging)
+    implementation(libs.krossbow.stomp.core)
+    implementation(libs.krossbow.websocket.ktor)
+    implementation(libs.krossbow.websocket.okhttp)
+    implementation(libs.okhttp3)
     implementation(libs.slf4j.simple)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.client.serialization)

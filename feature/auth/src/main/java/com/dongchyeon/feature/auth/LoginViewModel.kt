@@ -71,6 +71,7 @@ class LoginViewModel(
                 .onSuccess {
                     runBlocking {
                         userTokenRepository.saveTokens(it.accessToken, it.refreshToken)
+                        userTokenRepository.saveUserId(it.userId)
                     }
                     postEffect(LoginContract.Effect.NavigateToHome)
                 }

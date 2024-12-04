@@ -8,6 +8,6 @@ import org.koin.dsl.module
 val chatViewModelModule = module {
     viewModel<ChatViewModel> { ChatViewModel(get()) }
     viewModel<ChatRoomViewModel> { (savedStateHandle: SavedStateHandle) ->
-        ChatRoomViewModel(get(), savedStateHandle)
+        ChatRoomViewModel(get(), get(), savedStateHandle)
     }
 }
