@@ -13,6 +13,7 @@ import androidx.navigation.Navigator
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.daon.feature.chat.navigateToChat
 import com.dongchyeon.feature.profile.navigateToProfile
 import com.gamelink.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
@@ -74,7 +75,7 @@ class GameLinkAppState(
 
         when (topLevelDestination) {
             TopLevelDestination.Home -> navController.navigateToHome(topLevelNavOptions)
-            TopLevelDestination.Chat -> { }
+            TopLevelDestination.Chat -> navController.navigateToChat(topLevelNavOptions)
             TopLevelDestination.Profile -> navController.navigateToProfile(topLevelNavOptions)
             TopLevelDestination.Setting -> { }
         }

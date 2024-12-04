@@ -1,5 +1,6 @@
 package com.gamelink
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
+import com.daon.feature.chat.chatScreen
 import com.dongchyeon.feature.profile.profileScreen
 import com.gamelink.designsystem.component.BottomNavigationBar
 import com.gamelink.designsystem.component.BottomNavigationBarItem
@@ -60,6 +62,7 @@ fun GameLinkNavHost(
                         destinations = appState.topLevelDestinations,
                         currentDestination = appState.currentDestination,
                         onNavigateToDestination = { destination ->
+                            Log.d("GameLinkNavHost", "destination: $destination")
                             appState.navigateToTopLevelDestination(destination)
                         }
                     )
@@ -76,6 +79,9 @@ fun GameLinkNavHost(
                     navigateToHome = navController::navigateToHome
                 )
                 homeScreen(
+                    showSnackBar = appState::showSnackbar
+                )
+                chatScreen(
                     showSnackBar = appState::showSnackbar
                 )
                 profileScreen(
@@ -114,7 +120,9 @@ private fun GameLinkBottomNavigationBar(
                 icon = destination.icon,
                 selectedContentColor = selectedContentColor,
                 unselectedContentColor = unselectedContentColor,
-                onClick = { if (!isSelected) onNavigateToDestination(destination) }
+                onClick = {
+                    if (!isSelected) onNavigateToDestination(destination)
+                }
             )
         }
     }

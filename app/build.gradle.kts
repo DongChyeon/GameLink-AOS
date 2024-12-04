@@ -77,6 +77,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:chat"))
     implementation(project(":feature:profile"))
 
     implementation(platform(libs.firebase.bom))

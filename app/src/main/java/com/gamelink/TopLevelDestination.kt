@@ -1,6 +1,7 @@
 package com.gamelink
 
 import androidx.annotation.DrawableRes
+import com.daon.feature.chat.chatRoute
 import homeRoute
 
 enum class TopLevelDestination(
@@ -16,7 +17,7 @@ enum class TopLevelDestination(
     Chat(
         label = "채팅",
         icon = com.gamelink.core.designsystem.R.drawable.ic_chat,
-        route = "chat_route"
+        route = chatRoute
     ),
     Profile(
         label = "프로필",
