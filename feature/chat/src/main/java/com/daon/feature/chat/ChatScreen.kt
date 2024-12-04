@@ -1,15 +1,18 @@
 package com.daon.feature.chat
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -64,6 +67,7 @@ internal fun ChatScreen(
             .background(color = GameLinkTheme.colors.background)
             .statusBarsPadding()
     ) {
+        ChatTopBar()
         LazyColumn(
             modifier = Modifier.weight(1f),
             state = listState
@@ -86,5 +90,27 @@ internal fun ChatScreen(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun ChatTopBar() {
+    Column {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = 24.dp,
+                    vertical = 8.dp
+                )
+                .background(color = GameLinkTheme.colors.background)
+        ) {
+            Text(
+                text = "Game-Link",
+                style = GameLinkTheme.typography.head2,
+                color = GameLinkTheme.colors.primary2
+            )
+        }
+        Spacer(modifier = Modifier.fillMaxWidth().height(1.dp).background(GameLinkTheme.colors.gray2))
     }
 }
