@@ -1,6 +1,7 @@
 package com.gamelink
 
 import android.app.Application
+import com.daon.feature.chat.chatViewModelModule
 import com.dongchyeon.feature.profile.profileViewModelModule
 import com.gamelink.di.dataModule
 import com.gamelink.di.dataStoreModule
@@ -21,6 +22,7 @@ class GameLinkApp : Application() {
             modules(dataModule)
             modules(dataStoreModule)
             modules(authViewModelModule)
+            modules(chatViewModelModule)
             modules(profileViewModelModule)
         }
         FirebaseApp.initializeApp(this)

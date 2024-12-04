@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import org.koin.compose.viewmodel.koinViewModel
 
 const val chatRoute = "chat_route"
 
@@ -17,7 +18,10 @@ fun NavGraphBuilder.chatScreen(
     composable(
         route = chatRoute
     ) {
+        val chatViewModel: ChatViewModel = koinViewModel<ChatViewModel>()
+
         ChatRoute(
+            chatViewModel = chatViewModel,
             showSnackBar = showSnackBar
         )
     }

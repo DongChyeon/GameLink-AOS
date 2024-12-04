@@ -3,6 +3,7 @@ package com.gamelink.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Serializable
 enum class GameTier {
     @SerialName("IRON")
     IRON,
