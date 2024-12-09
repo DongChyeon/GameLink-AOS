@@ -6,6 +6,7 @@ import com.dongchyeon.model.GameType
 import com.dongchyeon.model.response.BoolResponse
 import com.dongchyeon.model.response.ChatMessageListResponse
 import com.dongchyeon.model.response.ChatRoomListResponse
+import com.dongchyeon.model.response.MyChatRoomListResponse
 import com.dongchyeon.toSerializedName
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -28,6 +29,22 @@ class ChatDataSourceImpl(
                 parameter("position", position?.toSerializedName())
                 parameter("gameType", gameType?.toSerializedName())
                 parameter("rankTiers", rankTiers?.toSerializedName())
+                parameter("page", page)
+                parameter("size", size)
+                sort?.forEach { sortCriteria ->
+                    parameter("sort", sortCriteria)
+                }
+            }.body()
+        }
+    }
+
+    override suspend fun getMyChatRooms(
+        page: Int,
+        size: Int,
+        sort: List<String>?
+    ): Result<MyChatRoomListResponse> {
+        return kotlin.runCatching {
+            client.get("chatroom/my") {
                 parameter("page", page)
                 parameter("size", size)
                 sort?.forEach { sortCriteria ->

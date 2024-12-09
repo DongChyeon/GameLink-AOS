@@ -7,6 +7,7 @@ import com.dongchyeon.KrossbowStompClient
 import com.dongchyeon.common.base.BaseViewModel
 import com.dongchyeon.repository.ChatRepository
 import com.dongchyeon.repository.UserTokenRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
@@ -36,7 +37,6 @@ class ChatRoomViewModel(
     private val userName: String = runBlocking { userTokenRepository.getUserName() }
 
     init {
-        loadMessages()
         connectToServer()
     }
 
@@ -77,6 +77,7 @@ class ChatRoomViewModel(
             if (isConnected) {
                 subscribeToRoom("/sub/chatRoom/enter$roomId")
                 sendEnterMessage()
+                loadMessages()
             } else {
                 postEffect(ChatRoomContract.Effect.ShowSnackBar("STOMP 서버 연결 실패"))
             }

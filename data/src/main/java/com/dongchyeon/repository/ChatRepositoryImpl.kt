@@ -7,6 +7,7 @@ import com.dongchyeon.model.GameType
 import com.dongchyeon.model.response.BoolResponse
 import com.dongchyeon.model.response.ChatMessageListResponse
 import com.dongchyeon.model.response.ChatRoomListResponse
+import com.dongchyeon.model.response.MyChatRoomListResponse
 
 class ChatRepositoryImpl(
     private val chatDataSource: ChatDataSource
@@ -19,6 +20,12 @@ class ChatRepositoryImpl(
         size: Int,
         sort: List<String>?
     ): Result<ChatRoomListResponse> = chatDataSource.getChatRooms(position, gameType, rankTiers, page, size, sort)
+
+    override suspend fun getMyChatRooms(
+        page: Int,
+        size: Int,
+        sort: List<String>?
+    ): Result<MyChatRoomListResponse> = chatDataSource.getMyChatRooms(page, size, sort)
 
     override suspend fun checkChatRoomAvailability(
         roomId: String

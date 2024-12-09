@@ -1,12 +1,12 @@
 package com.dongchyeon.repository
 
-import androidx.annotation.BoolRes
 import com.dongchyeon.model.GamePosition
 import com.dongchyeon.model.GameTier
 import com.dongchyeon.model.GameType
 import com.dongchyeon.model.response.BoolResponse
 import com.dongchyeon.model.response.ChatMessageListResponse
 import com.dongchyeon.model.response.ChatRoomListResponse
+import com.dongchyeon.model.response.MyChatRoomListResponse
 
 interface ChatRepository {
     suspend fun getChatRooms(
@@ -17,6 +17,12 @@ interface ChatRepository {
         size: Int,
         sort: List<String>?
     ): Result<ChatRoomListResponse>
+
+    suspend fun getMyChatRooms(
+        page: Int,
+        size: Int,
+        sort: List<String>?
+    ): Result<MyChatRoomListResponse>
 
     suspend fun checkChatRoomAvailability(
         roomId: String

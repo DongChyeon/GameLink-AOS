@@ -36,6 +36,23 @@ class ChatViewModel(
             )
         )
 
+        chatRepository.getMyChatRooms(
+            page = currentState.page,
+            size = currentState.pageSize,
+            sort = null
+        ).onSuccess {
+            updateState(currentState.copy(
+                myChatRooms = it.content,
+                page = currentState.page + 1,
+                isLastPage = it.last,
+                isFetchingChatRooms = false
+            ))
+        }.onFailure {
+            updateState(currentState.copy(isFetchingChatRooms = false))
+            postEffect(ChatContract.Effect.ShowSnackBar("채팅방을 불러오는데 실패했습니다"))
+        }
+
+        /*
         chatRepository.getChatRooms(
             page = currentState.page,
             size = currentState.pageSize,
@@ -53,7 +70,7 @@ class ChatViewModel(
         }.onFailure {
             updateState(currentState.copy(isFetchingChatRooms = false))
             postEffect(ChatContract.Effect.ShowSnackBar("채팅방을 불러오는데 실패했습니다"))
-        }
+        }*/
     }
 
     private fun loadMoreChatRooms() = viewModelScope.launch {
@@ -61,7 +78,23 @@ class ChatViewModel(
 
         updateState(currentState.copy(isFetchingChatRooms = true))
 
-        chatRepository.getChatRooms(
+        chatRepository.getMyChatRooms(
+            page = currentState.page,
+            size = currentState.pageSize,
+            sort = null
+        ).onSuccess {
+            updateState(currentState.copy(
+                myChatRooms = currentState.myChatRooms + it.content,
+                page = currentState.page + 1,
+                isLastPage = it.last,
+                isFetchingChatRooms = false
+            ))
+        }.onFailure {
+            updateState(currentState.copy(isFetchingChatRooms = false))
+            postEffect(ChatContract.Effect.ShowSnackBar("채팅방을 불러오는데 실패했습니다"))
+        }
+
+        /*chatRepository.getChatRooms(
             position = null,
             gameType = null,
             rankTiers = null,
@@ -76,6 +109,6 @@ class ChatViewModel(
         }.onFailure {
             updateState(currentState.copy(isFetchingChatRooms = false))
             postEffect(ChatContract.Effect.ShowSnackBar("채팅방을 불러오는데 실패했습니다"))
-        }
+        }*/
     }
 }

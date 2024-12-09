@@ -7,6 +7,7 @@ import com.dongchyeon.model.request.SelectPositionRequest
 import com.dongchyeon.model.response.BoolResponse
 import com.dongchyeon.model.response.ChatMessageListResponse
 import com.dongchyeon.model.response.ChatRoomListResponse
+import com.dongchyeon.model.response.MyChatRoomListResponse
 
 interface ChatDataSource {
     suspend fun getChatRooms(
@@ -17,6 +18,12 @@ interface ChatDataSource {
         size: Int,
         sort: List<String>?
     ): Result<ChatRoomListResponse>
+
+    suspend fun getMyChatRooms(
+        page: Int,
+        size: Int,
+        sort: List<String>?
+    ): Result<MyChatRoomListResponse>
 
     suspend fun checkChatRoomAvailability(
         roomId: String

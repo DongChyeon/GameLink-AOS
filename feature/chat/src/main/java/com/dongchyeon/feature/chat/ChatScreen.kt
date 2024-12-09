@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import com.dongchyeon.feature.chat.component.ChatRoomItem
 import com.dongchyeon.designsystem.theme.GameLinkTheme
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.serialization.json.JsonNull.content
 
 @Composable
 internal fun ChatRoute(
@@ -75,12 +76,12 @@ internal fun ChatScreen(
             modifier = Modifier.weight(1f),
             state = listState
         ) {
-            items(uiState.chatRooms) { chatRoom ->
+            items(uiState.myChatRooms) { chatRoom ->
                 ChatRoomItem(
                     roomId = chatRoom.roomId,
                     roomName = chatRoom.roomName,
-                    leaderTier = chatRoom.leaderTier,
-                    positions = chatRoom.positions,
+                    profileImgUrl = chatRoom.users.first().summonerIconUrl,
+                    lastMessageContent = chatRoom.lastMessageContent ?: "",
                     onClick = { roomId ->
                         chatViewModel.processEvent(ChatContract.Event.SelectChatRoom(roomId))
                     }

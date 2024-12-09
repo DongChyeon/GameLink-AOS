@@ -8,5 +8,7 @@ enum class ChatFileType {
     @SerialName("FILE")
     FILE,
     @SerialName("IMAGE")
-    IMAGE
+    IMAGE,
+    @SerialName("NONE")
+    NONE
 }
